@@ -13,14 +13,14 @@ def database():
     json_data = request.json
     if not json_data: 
         return "make sure to send arguments"
-
-    commands = ("store","get","update","delete")
+    
+    commands = ("put","get","delete")
     if "command" not in json_data or json_data["command"] not in commands:
         return "make sure to send a valid command"
     
     command = json_data["command"]
 
-    if command == "store":
+    if command == "put":
         if "key" not in json_data or "value" not in json_data:
             return "Must send a key and a value"
         
