@@ -46,26 +46,26 @@ def put(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5010/put',json=data).content
+        return requests.post('http://127.0.0.1:5001/put',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5000/put',json=data).content
+        return requests.post('http://127.0.0.1:5002/put',json=data).content
         
 
 def get(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5010/get',json=data).content
+        return requests.post('http://127.0.0.1:5001/get',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5000/get',json=data).content
+        return requests.post('http://127.0.0.1:5002/get',json=data).content
 
 def delete(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5010/delete',json=data).content
+        return requests.post('http://127.0.0.1:5001/delete',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5000/delete',json=data).content
+        return requests.post('http://127.0.0.1:5002/delete',json=data).content
         
 
 def myHash(s):
@@ -73,4 +73,4 @@ def myHash(s):
 
 
 if __name__ == "main":
-    app.run(host='127.0.0.1',port=5001)  # run our Flask app
+    app.run(host='127.0.0.1',port=5000)  # run our Flask app

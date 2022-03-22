@@ -17,13 +17,13 @@ def put():
     key = data["key"]
     value = data["value"]
     matrix = []
-    with open("node1.csv",'r') as file:
+    with open("node2.csv",'r') as file:
         csvreader = csv.reader(file)
         for row in csvreader:
             if row and row[0]!=key: matrix.append(row)
             elif row[0]==key: updated = True
 
-    with open('node1.csv', 'w',newline='') as f:
+    with open('node2.csv', 'w',newline='') as f:
         writer = csv.writer(f)
         for row in matrix:
                 writer.writerow(row)
@@ -32,14 +32,14 @@ def put():
         return "Your key has been saved"
     else:
         return "Your key has been updated"
+
 @app.route("/get",methods = ['POST'])
 def get():
-
     data = dict(request.get_json())
     key = data["key"]
 
     matrix = []
-    with open("node1.csv",'r') as file:
+    with open("node2.csv",'r') as file:
         csvreader = csv.reader(file)
         for row in csvreader:
             if row: matrix.append(row)
@@ -52,18 +52,17 @@ def get():
 
 @app.route("/delete",methods = ['POST'])
 def delete():
-
     data = dict(request.get_json())
     key = data["key"]
 
     matrix = []
-    with open("node1.csv",'r') as file:
+    with open("node2.csv",'r') as file:
         csvreader = csv.reader(file)
         for row in csvreader:
             if row: matrix.append(row)
 
     deleted = False
-    with open('node1.csv', 'w',newline='') as f:
+    with open('node2.csv', 'w',newline='') as f:
         writer = csv.writer(f)
         for row in matrix:
             if row[0]!=key:
