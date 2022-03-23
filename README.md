@@ -1,9 +1,7 @@
 # ProyectoTelematica1
 Juan Martin Uribe
-
-Daniel Jose Giraldo
-
-Hector Banilat
+,Daniel Jose Giraldo
+,Hector Banilat
 
 DISTRIBUTED DATABASE KEY:VALUE with FLASK
 
