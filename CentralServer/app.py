@@ -1,9 +1,6 @@
-from flask import Flask, request, abort
-from flask_restful import Resource, Api, reqparse
-import pandas as pd
-import ast
+from flask import Flask, request
 import requests
-import os
+
 
 
 app = Flask(__name__)
@@ -12,34 +9,34 @@ def database():
 
     json_data = request.json
     if not json_data: 
-        return "make sure to send arguments"
-    
+        return "make sure to send arguments",202
+
     commands = ("put","get","delete")
     if "command" not in json_data or json_data["command"] not in commands:
-        return "make sure to send a valid command"
+        return "make sure to send a valid command",202
     
     command = json_data["command"]
 
     if command == "put":
         if "key" not in json_data or "value" not in json_data:
-            return "Must send a key and a value"
+            return "Must send a key and a value",202
         
         ret_value = put(json_data)
         return ret_value
 
     elif command == "get":
         if "key" not in json_data:
-            return "Must send a key"
+            return "Must send a key",202
         
         ret_value = get(json_data)
         return ret_value
     
     elif command == "delete":
         if "key" not in json_data:
-            return "send a key to delete"
+            return "send a key to delete",202
         ret_value = delete(json_data)
         return ret_value
-    return "nada"
+    return 
 
 
 def put(data):

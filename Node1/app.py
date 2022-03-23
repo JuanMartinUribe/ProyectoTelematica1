@@ -1,10 +1,6 @@
 from numpy import e
-from flask import Flask, request, abort
-from flask_restful import Resource, Api, reqparse
-import pandas as pd
-import ast
+from flask import Flask, request
 import requests
-import os
 import csv   
 
 app = Flask(__name__)
@@ -32,7 +28,7 @@ def put():
         return "Your key has been saved"
     else:
         return "Your key has been updated"
-        
+
 @app.route("/get",methods = ['POST'])
 def get():
 
