@@ -1,4 +1,3 @@
-from requests.models import HTTPError
 from flask import Flask, request, abort
 from flask_restful import Resource, Api, reqparse
 import pandas as pd
@@ -34,6 +33,12 @@ def database():
         
         ret_value = get(json_data)
         return ret_value
+    
+    elif command == "delete":
+        if "key" not in json_data:
+            return "send a key to delete"
+        ret_value = delete(json_data)
+        return ret_value
     return "nada"
 
 
@@ -41,18 +46,26 @@ def put(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5010/put',json=data)
+        return requests.post('http://127.0.0.1:5010/put',json=data).content
     elif node==1:
-        requests.post('http://127.0.0.1:5000/put',json=data)
-        return "Your key has been saved"
+        return requests.post('http://127.0.0.1:5000/put',json=data).content
+        
 
 def get(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5010/get',json=data)
+        return requests.post('http://127.0.0.1:5010/get',json=data).content
     elif node==1:
         return requests.post('http://127.0.0.1:5000/get',json=data).content
+
+def delete(data):
+    key = data["key"]
+    node = myHash(key)
+    if node == 0:
+        return requests.post('http://127.0.0.1:5010/delete',json=data).content
+    elif node==1:
+        return requests.post('http://127.0.0.1:5000/delete',json=data).content
         
 
 def myHash(s):
