@@ -1,18 +1,18 @@
-from numpy import e
 from flask import Flask, request
 import requests
 import csv   
 
 app = Flask(__name__)
 
+#ruta del put del nodo, se ingresa la llave-valor nueva en el lider
 @app.route("/put",methods = ['POST'])
 def put():
     updated = False
     data = dict(request.get_json())
-    fields=[data["key"],data["value"]]
     key = data["key"]
     value = data["value"]
     matrix = []
+
     with open("node2.csv",'r') as file:
         csvreader = csv.reader(file)
         for row in csvreader:
@@ -24,17 +24,22 @@ def put():
         for row in matrix:
                 writer.writerow(row)
         writer.writerow([key,value])
+    
+    #metodo para actualizar los followers, es totalmente sincronico porque se debe esperar a que el proceso termine
+    follower()
+
     if not updated:
         return "Your key has been saved"
     else:
         return "Your key has been updated"
 
+#ruta del get del nodo, se retorna el valor de la llave, o un mensaje en caso de que no exista
 @app.route("/get",methods = ['POST'])
 def get():
     data = dict(request.get_json())
     key = data["key"]
-
     matrix = []
+
     with open("node2.csv",'r') as file:
         csvreader = csv.reader(file)
         for row in csvreader:
@@ -46,6 +51,7 @@ def get():
 
     return "key not found" , 202
 
+#ruta del delete del nodo, se borra la llave en caso de que exista
 @app.route("/delete",methods = ['POST'])
 def delete():
     data = dict(request.get_json())
@@ -64,5 +70,28 @@ def delete():
             if row[0]!=key:
                 writer.writerow(row)
             else: deleted = True
-    if deleted : return "key deleted" , 202
+    if deleted :
+        #se llama a los followers de los otros nodos para actualizar la informacion 
+        follower()
+        return "key deleted" , 202
     else: return "key doesnt exist, nothing deleted",202
+
+#ruta en caso de que el nodo se llame para actualizar los followers que residen en este nodo
+@app.route("/followernode1",methods = ['POST'])
+def replicaNode1():
+    file = request.files['file']
+    file.save('node1follower.csv')
+    return '',202
+
+@app.route("/followernode3",methods = ['POST'])
+def replicaNode3():
+    file = request.files['file']
+    file.save('node3follower.csv')
+    return '',202
+
+#metodo que llama los followers ubicados en otros nodos para ser actualizados
+def follower():
+    file = {'file':open('node2.csv','rb')}
+    requests.post('http://127.0.0.1:5001/followernode2',files=file)
+    file = {'file':open('node2.csv','rb')}
+    requests.post('http://127.0.0.1:5003/followernode2',files=file)
