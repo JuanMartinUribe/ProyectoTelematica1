@@ -1,4 +1,5 @@
 from flask import Flask, request
+from waitress import serve
 import requests
 
 
@@ -43,26 +44,26 @@ def put(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/put',json=data).content
+        return requests.post('http://54.145.23.91/put',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/put',json=data).content
+        return requests.post('http://3.89.124.96/put',json=data).content
         
 
 def get(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/get',json=data).content
+        return requests.post('http://54.145.23.91/get',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/get',json=data).content
+        return requests.post('http://3.89.124.96/get',json=data).content
 
 def delete(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/delete',json=data).content
+        return requests.post('http://54.145.23.91/delete',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/delete',json=data).content
+        return requests.post('http://3.89.124.96/delete',json=data).content
         
 
 def myHash(s):
@@ -70,4 +71,5 @@ def myHash(s):
 
 
 if __name__ == "main":
-    app.run(host='127.0.0.1',port=5000)  # run our Flask app
+    #app.run(host='54.152.36.212')  # run our Flask app
+    serve(app, host='0.0.0.0', port=8000)
