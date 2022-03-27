@@ -60,7 +60,12 @@ def put(data):
 def get(data):
     key = data["key"]
     node = myHash(key)
+
+    #se identifica el nodo mediante el hash de la llave
+
     if node == 0:
+        #se hace el llamado al nodo que contiene la particion primaria de esta llave(leader)
+        #en caso de que falle, se busca en los demas nodos(followers)
         try:
             return requests.post('http://127.0.0.1:5001/get',json=data).content
         except Exception:
@@ -72,6 +77,8 @@ def get(data):
                 except Exception:
                     return "server is down", 202
     elif node==1:
+        #se hace el llamado al nodo que contiene la particion primaria de esta llave(leader)
+        #en caso de que falle, se busca en los demas nodos(followers)
         try:
             return requests.post('http://127.0.0.1:5002/get',json=data).content
         except Exception:
@@ -83,6 +90,8 @@ def get(data):
                 except Exception:
                     return "server is down", 202
     elif node ==2:
+        #se hace el llamado al nodo que contiene la particion primaria de esta llave(leader)
+        #en caso de que falle, se busca en los demas nodos(followers)
         try:
             return requests.post('http://127.0.0.1:5003/get',json=data).content
         except Exception:
