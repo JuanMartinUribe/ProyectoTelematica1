@@ -95,3 +95,40 @@ def follower():
     requests.post('http://127.0.0.1:5001/followernode2',files=file)
     file = {'file':open('node2.csv','rb')}
     requests.post('http://127.0.0.1:5003/followernode2',files=file)
+
+
+
+
+@app.route("/followernode1/get",methods = ['POST'])
+def getNode1Follower():
+    data = dict(request.get_json())
+    key = data["key"]
+    matrix = []
+
+    with open("node1follower.csv",'r') as file:
+        csvreader = csv.reader(file)
+        for row in csvreader:
+            if row: matrix.append(row)
+
+    for row in matrix:
+        if row[0] == key:
+            return row[1]
+
+    return "key not found" , 202
+
+@app.route("/followernode3/get",methods = ['POST'])
+def getNode3Follower():
+    data = dict(request.get_json())
+    key = data["key"]
+    matrix = []
+
+    with open("node3follower.csv",'r') as file:
+        csvreader = csv.reader(file)
+        for row in csvreader:
+            if row: matrix.append(row)
+
+    for row in matrix:
+        if row[0] == key:
+            return row[1]
+
+    return "key not found" , 202

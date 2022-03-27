@@ -1,3 +1,4 @@
+from requests.models import HTTPError
 from flask import Flask, request
 import requests
 '''
@@ -60,11 +61,38 @@ def get(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/get',json=data).content
+        try:
+            return requests.post('http://127.0.0.1:5001/get',json=data).content
+        except Exception:
+            try:
+                return requests.post('http://127.0.0.1:5002/followernode1/get',json=data).content
+            except Exception:
+                try:
+                    return requests.post('http://127.0.0.1:5003/followernode1/get',json=data).content
+                except Exception:
+                    return "server is down", 202
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/get',json=data).content
+        try:
+            return requests.post('http://127.0.0.1:5002/get',json=data).content
+        except Exception:
+            try:
+                return requests.post('http://127.0.0.1:5001/followernode2/get',json=data).content
+            except Exception:
+                try:
+                    return requests.post('http://127.0.0.1:5003/followernode2/get',json=data).content
+                except Exception:
+                    return "server is down", 202
     elif node ==2:
-        return requests.post('http://127.0.0.1:5003/get',json=data).content
+        try:
+            return requests.post('http://127.0.0.1:5003/get',json=data).content
+        except Exception:
+            try:
+                return requests.post('http://127.0.0.1:5002/followernode3/get',json=data).content
+            except Exception:
+                try:
+                    return requests.post('http://127.0.0.1:5001/followernode3/get',json=data).content
+                except Exception:
+                    return "server is down", 202
 
 #operacion delete, se hashea la llave y se le asigna el nodo, llamandolo a la ruta de dicha operacion
 def delete(data):
