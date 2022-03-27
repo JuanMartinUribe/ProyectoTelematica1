@@ -44,7 +44,7 @@ def put(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://54.145.23.91/put',json=data).content
+        return requests.post('http://54.174.175.48/put',json=data).content
     elif node==1:
         return requests.post('http://3.89.124.96/put',json=data).content
         
