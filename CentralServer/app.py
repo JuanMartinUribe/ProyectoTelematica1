@@ -44,26 +44,26 @@ def put(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://54.174.175.48:8080/put',json=data).content
+        return requests.post('http:/100.24.20.20:8080/put',json=data).content
     elif node==1:
-        return requests.post('http://54.242.167.113:8080/put',json=data).content
+        return requests.post('http://54.221.171.10:8080/put',json=data).content
         
 
 def get(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://54.174.175.48:8080/get',json=data).content
+        return requests.post('http://100.24.20.20:8080/get',json=data).content
     elif node==1:
-        return requests.post('http://54.242.167.113:8080/get',json=data).content
+        return requests.post('http://54.221.171.10:8080/get',json=data).content
 
 def delete(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://54.174.175.48:8080/delete',json=data).content
+        return requests.post('http://100.24.20.20:8080/delete',json=data).content
     elif node==1:
-        return requests.post('http://54.242.167.113:8080/delete',json=data).content
+        return requests.post('http://54.221.171.10:8080/delete',json=data).content
         
 
 def myHash(s):
