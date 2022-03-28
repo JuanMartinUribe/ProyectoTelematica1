@@ -43,26 +43,26 @@ def put(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/put',json=data).content
+        return requests.post('http://35.172.137.217:5001/put',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/put',json=data).content
+        return requests.post('http://35.172.137.217:5002/put',json=data).content
         
 
 def get(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/get',json=data).content
+        return requests.post('http://35.172.137.217:5001/get',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/get',json=data).content
+        return requests.post('http://35.172.137.217:5002/get',json=data).content
 
 def delete(data):
     key = data["key"]
     node = myHash(key)
     if node == 0:
-        return requests.post('http://127.0.0.1:5001/delete',json=data).content
+        return requests.post('http://35.172.137.217:5001/delete',json=data).content
     elif node==1:
-        return requests.post('http://127.0.0.1:5002/delete',json=data).content
+        return requests.post('http://35.172.137.217:5002/delete',json=data).content
         
 
 def myHash(s):
